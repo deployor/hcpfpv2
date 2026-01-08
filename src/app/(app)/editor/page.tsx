@@ -7,22 +7,26 @@ import { overlays, overlaySeries } from "@/lib/db/schema";
 import { EditorClient } from "./ui";
 
 export default async function EditorPage() {
-  const overlayRows = await db
-    .select({
-      id: overlays.id,
-      seriesId: overlays.seriesId,
-      seriesSlug: overlaySeries.slug,
-      seriesName: overlaySeries.name,
-      slug: overlays.slug,
-      name: overlays.name,
-      imageUrl: overlays.imageUrl,
-      placement: overlays.placement,
-      createdAt: overlays.createdAt,
-    })
-    .from(overlays)
-    .innerJoin(overlaySeries, eq(overlays.seriesId, overlaySeries.id))
-    .where(eq(overlays.isApproved, true))
-    .orderBy(desc(overlays.createdAt));
+  const skipDb = process.env.SKIP_DB === "1";
+
+  const overlayRows = skipDb
+    ? []
+    : await db
+        .select({
+          id: overlays.id,
+          seriesId: overlays.seriesId,
+          seriesSlug: overlaySeries.slug,
+          seriesName: overlaySeries.name,
+          slug: overlays.slug,
+          name: overlays.name,
+          imageUrl: overlays.imageUrl,
+          placement: overlays.placement,
+          createdAt: overlays.createdAt,
+        })
+        .from(overlays)
+        .innerJoin(overlaySeries, eq(overlays.seriesId, overlaySeries.id))
+        .where(eq(overlays.isApproved, true))
+        .orderBy(desc(overlays.createdAt));
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-8 p-6">
