@@ -10,8 +10,6 @@ const nextConfig = {
     ],
   },
   experimental: {
-    // Uploads (PNG bytes) are sent through Server Actions; the default is 1 MB.
-    // Keep this comfortably above our 5 MB validation limit.
     serverActions: {
       bodySizeLimit: "20mb",
     },
