@@ -1,10 +1,9 @@
 ## ---------- Builder stage ----------
 FROM node:20-slim AS builder
 
-ENV NODE_ENV=production
 WORKDIR /app
 
-# Install dependencies first for better caching
+# Install dependencies first for better caching (include devDeps for TypeScript)
 COPY package.json package-lock.json ./
 RUN npm ci
 
