@@ -15,7 +15,9 @@ COPY . .
 # If you have different env files, ensure they exist in the context
 COPY .env* ./
 
-# Disable Next telemetry and build
+# Disable Next telemetry and skip DB during build
+ARG SKIP_DB=1
+ENV SKIP_DB=${SKIP_DB}
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 

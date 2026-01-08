@@ -6,27 +6,33 @@ import { db } from "@/lib/db/client";
 import { overlays, overlaySeries } from "@/lib/db/schema";
 
 export default async function Home() {
-  const series = await db
-    .select({
-      id: overlaySeries.id,
-      slug: overlaySeries.slug,
-      name: overlaySeries.name,
-      description: overlaySeries.description,
-      createdAt: overlaySeries.createdAt,
-    })
-    .from(overlaySeries)
-    .where(eq(overlaySeries.isPublic, true))
-    .orderBy(desc(overlaySeries.createdAt));
+  const skipDb = process.env.SKIP_DB === "1";
 
-  const banners = await db
-    .select({
-      seriesId: overlays.seriesId,
-      imageUrl: overlays.imageUrl,
-      createdAt: overlays.createdAt,
-    })
-    .from(overlays)
-    .where(eq(overlays.isApproved, true))
-    .orderBy(desc(overlays.createdAt));
+  const series = skipDb
+    ? []
+    : await db
+        .select({
+          id: overlaySeries.id,
+          slug: overlaySeries.slug,
+          name: overlaySeries.name,
+          description: overlaySeries.description,
+          createdAt: overlaySeries.createdAt,
+        })
+        .from(overlaySeries)
+        .where(eq(overlaySeries.isPublic, true))
+        .orderBy(desc(overlaySeries.createdAt));
+
+  const banners = skipDb
+    ? []
+    : await db
+        .select({
+          seriesId: overlays.seriesId,
+          imageUrl: overlays.imageUrl,
+          createdAt: overlays.createdAt,
+        })
+        .from(overlays)
+        .where(eq(overlays.isApproved, true))
+        .orderBy(desc(overlays.createdAt));
 
   const bannerBySeries = new Map<string, string>();
   for (const b of banners) {

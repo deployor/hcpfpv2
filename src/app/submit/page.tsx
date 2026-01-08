@@ -14,11 +14,15 @@ export default async function SubmitPage({
 }) {
   const sp = await searchParams;
 
-  const series = await db
-    .select({ id: overlaySeries.id, slug: overlaySeries.slug, name: overlaySeries.name })
-    .from(overlaySeries)
-    .where(eq(overlaySeries.isPublic, true))
-    .orderBy(desc(overlaySeries.createdAt));
+  const skipDb = process.env.SKIP_DB === "1";
+
+  const series = skipDb
+    ? []
+    : await db
+        .select({ id: overlaySeries.id, slug: overlaySeries.slug, name: overlaySeries.name })
+        .from(overlaySeries)
+        .where(eq(overlaySeries.isPublic, true))
+        .orderBy(desc(overlaySeries.createdAt));
 
   return (
     <main className="mx-auto flex w-full max-w-4xl flex-col gap-6 p-6">
