@@ -7,9 +7,6 @@ import {
   uuid,
 } from "drizzle-orm/pg-core";
 
-/**
- * Overlay “series” (group) like: dayerema, shipwrecked, etc.
- */
 export const overlaySeries = pgTable(
   "overlay_series",
   {
@@ -30,10 +27,6 @@ export const overlaySeries = pgTable(
   }),
 );
 
-/**
- * One overlay asset belonging to a series.
- * For V1 we store a public URL (can be S3/R2 or a Next route).
- */
 export const overlays = pgTable(
   "overlays",
   {
@@ -46,7 +39,6 @@ export const overlays = pgTable(
     name: text("name").notNull(),
     imageUrl: text("image_url").notNull(),
 
-    // optional short “placement” hint (e.g. "top-left" for corner overlays)
     placement: text("placement"),
 
     isApproved: boolean("is_approved").notNull().default(false),
@@ -62,9 +54,6 @@ export const overlays = pgTable(
   }),
 );
 
-/**
- * Optional: store Slack identity to support “Apply to Slack” and always fetch latest PFP.
- */
 export const slackUsers = pgTable(
   "slack_users",
   {

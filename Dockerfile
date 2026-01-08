@@ -26,6 +26,7 @@ FROM node:20-slim AS runner
 
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV SKIP_DB=0
 WORKDIR /app
 
 # Copy the standalone output and static assets

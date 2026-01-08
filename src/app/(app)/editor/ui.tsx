@@ -178,7 +178,6 @@ export function EditorClient({ overlays }: { overlays: Overlay[] }) {
             <div className="text-muted mb-2 text-xs">Base</div>
             <div className="aspect-square w-full overflow-hidden rounded-lg bg-[rgba(255,255,255,0.03)]">
               {baseDataUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   alt="Base avatar preview"
                   className="h-full w-full object-cover"
@@ -192,7 +191,6 @@ export function EditorClient({ overlays }: { overlays: Overlay[] }) {
             <div className="text-muted mb-2 text-xs">Result</div>
             <div className="aspect-square w-full overflow-hidden rounded-lg bg-[rgba(255,255,255,0.03)]">
               {resultDataUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   alt="Rendered avatar preview"
                   className="h-full w-full object-cover"
